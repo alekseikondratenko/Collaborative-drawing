@@ -29,4 +29,14 @@ io.sockets.on('connection', newConnection)
 
 function newConnection(socket){
     console.log('new connection' +socket.id)
+
+    function mouseMsg(data) {
+        socket.broadcast.emit('mouse', data)
+        // io.sockets.emit('mouse', data) // send the message also back to the client
+        console.log(data)
+    }
+    socket.on('mouse', mouseMsg) //If there is a message 'mouse', trigger mouseMsg
+
+    
+
 }
