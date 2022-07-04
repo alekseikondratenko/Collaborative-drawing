@@ -9,4 +9,4 @@ npm install socket.io
 
 node server.js
 
-go to localhost:3000
+go to localhost:3000 in your browser
