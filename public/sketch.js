@@ -6,7 +6,7 @@ function setup() {
 }
 
 // Socket client side (opening the connection)
-socket = io.connect('http://localhost:3000')
+socket = socket.io.connect('http://localhost:3000')
 
 function draw() {
   noStroke()
