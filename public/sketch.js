@@ -1,15 +1,17 @@
+// Socket client side 
+
 var socket
 
 function setup() {
   createCanvas(600, 400)
   background(51)
 
-  socket = io.connect('http://localhost:3000')
-  socket.on('mouse', newDrawing)
+  socket = io.connect('http://localhost:3000') // Create a socket
+  socket.on('mouse', newDrawing) //receiving data
 }
 
-// Socket client side (opening the connection)
 
+// This is coming from different device
 function newDrawing(data) {
   noStroke()
   fill(255, 0, 100)
@@ -23,7 +25,7 @@ function mouseDragged() {
     x: mouseX,
     y: mouseY
   }
-  socket.emit('mouse', data) // Message itself
+  socket.emit('mouse', data) // Message itself, mouse is the name
 
   noStroke()
   fill(255)

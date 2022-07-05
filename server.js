@@ -2,20 +2,13 @@
 // Import express
 var express = require('express')
 
-//import express from 'express' 
-
+// Establish the local server
 var app = express()
-
-// const http = require('http');
-// const server = http.createServer(app);
 
 var server = app.listen(3000)
 
 app.use(express.static('public'))
 
-// app.get('/public/', function(req, res){
-//     res.send("Hello from the root application URL");
-// });
 
 console.log("My socket server is running")
 
@@ -24,17 +17,20 @@ var socket = require('socket.io')
 
 var io = socket(server)
 
-// Event
+// Event. To handle a socket created on the client's side
 io.sockets.on('connection', newConnection)
 
+// Responding to the event initiated by socket.emit on the client side
 function newConnection(socket){
     console.log('new connection' +socket.id)
 
     function mouseMsg(data) {
-        socket.broadcast.emit('mouse', data)
+        socket.broadcast.emit('mouse', data) // Send the message to all the devices
         // io.sockets.emit('mouse', data) // send the message also back to the client
         console.log(data)
     }
+
+    // Receiving data
     socket.on('mouse', mouseMsg) //If there is a message 'mouse', trigger mouseMsg
 
     
