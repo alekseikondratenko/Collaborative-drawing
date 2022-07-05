@@ -12,7 +12,17 @@
     </style>
     <script src="p5.js"></script>
     <!-- <script src="../addons/p5.sound.js"></script> -->
-    <script src="sketch.js"></script>
+    <!-- <script src="sketch.js"></script> -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./build/three.module.js",
+          "three/examples/jsm/controls/OrbitControls": "./jsm/controls/OrbitControls.js",
+          "three/examples/jsm/libs/stats.module": "./jsm/libs/stats.module.js",
+          "three/examples/jsm/libs/dat.gui.module": "./jsm/libs/dat.gui.module.js"
+        }
+      }
+    </script>
   </head>
 
   <body>
@@ -21,5 +31,8 @@
     <script>
       var socket = io();
     </script>
+    <!-- <script type="module" src="sketch.js"></script> -->
+    <!-- <canvas class="webgl"></canvas> -->
+    <script type="module" src="client.js"></script>
   </body>
 </html>
