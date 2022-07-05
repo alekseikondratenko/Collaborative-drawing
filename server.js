@@ -18,21 +18,20 @@ var socket = require('socket.io')
 var io = socket(server)
 
 // Event. To handle a socket created on the client's side
-io.sockets.on('connection', newConnection)
+io.sockets.on('connection', newConnection) // Activates a function when a connection is established
 
 // Responding to the event initiated by socket.emit on the client side
 function newConnection(socket){
     console.log('new connection' +socket.id)
 
     function mouseMsg(data) {
-        socket.broadcast.emit('mouse', data) // Send the message to all the devices
-        // io.sockets.emit('mouse', data) // send the message also back to the client
+        socket.broadcast.emit('mouse', data) // Send the ' mouse' message to all the clients except the original one
+        // io.sockets.emit('mouse', data) // send the message also back to the original client
         console.log(data)
     }
 
     // Receiving data
-    socket.on('mouse', mouseMsg) //If there is a message 'mouse', trigger mouseMsg
+    socket.on('mouse', mouseMsg) //If recieved a message 'mouse' from the client, trigger mouseMsg
 
-    
 
 }

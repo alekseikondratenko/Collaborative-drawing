@@ -6,8 +6,9 @@ function setup() {
   createCanvas(600, 400)
   background(51)
 
-  socket = io.connect('http://localhost:3000') // Create a socket
-  socket.on('mouse', newDrawing) //receiving data
+  socket = io.connect('http://localhost:3000') // Connect client to server in socket
+  //receiving data from a server
+  socket.on('mouse', newDrawing) // If recieves the message 'mouse' from the server, trigger the function
 }
 
 
@@ -25,6 +26,7 @@ function mouseDragged() {
     x: mouseX,
     y: mouseY
   }
+  // Send the message 'mouse' to the server with some data
   socket.emit('mouse', data) // Message itself, mouse is the name
 
   noStroke()
