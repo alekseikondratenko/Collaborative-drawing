@@ -16,7 +16,7 @@ var controls = new OrbitControls(camera, renderer.domElement);
 
 scene.add(new THREE.GridHelper(10, 10));
 
-var h = 1.3333333432674408;
+//var h = 1.3333333432674408;
 // var pyramidGeom = new THREE.ConeBufferGeometry(Math.sqrt(2/3), h, 3);
 // pyramidGeom.translate(0, h * 0.5, 0);
 
@@ -39,6 +39,19 @@ var isDragging = false;
 var dragObject;
 
 // events
+
+document.addEventListener("keydown", event => {
+    if (event.code === 'ArrowUp') {
+        box.position.y +=1
+    }
+})
+
+document.addEventListener("keydown", event => {
+    if (event.code === 'ArrowDown') {
+        box.position.y -=1
+    }
+})
+
 document.addEventListener("pointermove", event => {
 
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -63,6 +76,8 @@ document.addEventListener("pointerdown", () => {
     
     }
 } );
+
+
 
 document.addEventListener("pointerup", () => {
     isDragging = false;

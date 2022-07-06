@@ -23,20 +23,21 @@ var socket = require('socket.io')
 var io = socket(server)
 
 // // Event. To handle a socket created on the client's side
-io.sockets.on('connection', newConnection) // Activates a function when a connection is established
-
-// // Responding to the event initiated by socket.emit on the client side
-function newConnection(socket){
+io.sockets.on('connection', (socket)=>{
     console.log('new connection' +socket.id)
 
-    function mouseMsg(data) {
-        socket.broadcast.emit('Redraw figure', data) // Send the ' mouse' message to all the clients except the original one
+    // Receiving data
+    socket.on('Get positions', (data)=>{ //If recieved a message 'Get positions' from the client, trigger the function below
+        socket.broadcast.emit('Redraw figure', data) // Send the ' Redraw figure' message to all the clients except the original one
         // io.sockets.emit('mouse', data) // send the message also back to the original client
         console.log(data)
-    }
+    }) 
 
-    // Receiving data
-    socket.on('Get positions', mouseMsg) //If recieved a message 'mouse' from the client, trigger mouseMsg
+}) // Activates a function when a connection is established
+
+// // Responding to the event initiated by socket.emit on the client side
+// function newConnection(socket){
+    
 
 
-}
+// }
