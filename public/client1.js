@@ -17,13 +17,16 @@ var controls = new OrbitControls(camera, renderer.domElement);
 scene.add(new THREE.GridHelper(10, 10));
 
 var h = 1.3333333432674408;
-var pyramidGeom = new THREE.ConeBufferGeometry(Math.sqrt(2/3), h, 3);
-pyramidGeom.translate(0, h * 0.5, 0);
+// var pyramidGeom = new THREE.ConeBufferGeometry(Math.sqrt(2/3), h, 3);
+// pyramidGeom.translate(0, h * 0.5, 0);
 
-var pyramidMat = new THREE.MeshBasicMaterial({color: "red"});
+var boxGeom = new THREE.BoxGeometry(1, 1, 1);
+boxGeom.translate(0, 0.5, 0);
 
-var pyramid = new THREE.Mesh(pyramidGeom, pyramidMat);
-scene.add(pyramid);
+var boxMat = new THREE.MeshBasicMaterial({color: "red"});
+
+var box = new THREE.Mesh(boxGeom, boxMat);
+scene.add(box);
 
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
@@ -49,7 +52,7 @@ document.addEventListener("pointermove", event => {
 });
 
 document.addEventListener("pointerdown", () => {
-        var intersects = raycaster.intersectObjects([pyramid]);
+        var intersects = raycaster.intersectObjects([box]);
     if (intersects.length > 0) {
         controls.enabled = false;
         pIntersect.copy(intersects[0].point);
@@ -66,9 +69,9 @@ document.addEventListener("pointerup", () => {
     dragObject = null;
     controls.enabled = true;
     var data = {
-        x: pyramid.position.x,
-        y: pyramid.position.y,
-        z: pyramid.position.z,
+        x: box.position.x,
+        y: box.position.y,
+        z: box.position.z,
     }
 
     socket.emit('Get positions', data)
@@ -100,6 +103,6 @@ socket.on('Redraw figure', newDrawing)
 
 
 function newDrawing(data){
-    pyramid.position.set(data.x, data.y, data.z)
+    box.position.set(data.x, data.y, data.z)
     //console.log(data)
 }
