@@ -28,15 +28,15 @@ io.sockets.on('connection', newConnection) // Activates a function when a connec
 // // Responding to the event initiated by socket.emit on the client side
 function newConnection(socket){
     console.log('new connection' +socket.id)
+
+    function mouseMsg(data) {
+        socket.broadcast.emit('Redraw figure', data) // Send the ' mouse' message to all the clients except the original one
+        // io.sockets.emit('mouse', data) // send the message also back to the original client
+        console.log(data)
+    }
+
+    // Receiving data
+    socket.on('Get positions', mouseMsg) //If recieved a message 'mouse' from the client, trigger mouseMsg
+
+
 }
-//     function mouseMsg(data) {
-//         socket.broadcast.emit('mouse', data) // Send the ' mouse' message to all the clients except the original one
-//         // io.sockets.emit('mouse', data) // send the message also back to the original client
-//         console.log(data)
-//     }
-
-//     // Receiving data
-//     socket.on('mouse', mouseMsg) //If recieved a message 'mouse' from the client, trigger mouseMsg
-
-
-// }
