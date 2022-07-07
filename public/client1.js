@@ -1,6 +1,32 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
+//import GUI from 'lil-gui'; 
+
+const gui = new GUI({ width: 280 });
+//gui.add( document, 'title' );
+
+const myObject = {
+	newCube: 'Space',
+	goUp: 'Arrow Up',
+    goDown: 'Arrow Down',
+    scaleUp: 'Left Shift',
+    scaleDown: 'Right Shift',
+    rotateToBeam: 'b',
+    rotateToColumn: 'c',
+    moveCube: 'Mouse left click and drag'
+};
+
+gui.add( myObject, 'moveCube' ); 
+gui.add( myObject, 'newCube' ); 
+gui.add( myObject, 'goUp' ); 
+gui.add( myObject, 'goDown' ); 
+gui.add( myObject, 'scaleUp' ); 
+gui.add( myObject, 'scaleDown' ); 
+gui.add( myObject, 'rotateToBeam' ); 
+gui.add( myObject, 'rotateToColumn' ); 
+
+
 
 var socket
 socket = io.connect('http://localhost:3000') // Connect client to server in socket
@@ -42,6 +68,10 @@ class Cube{
         this.box = new THREE.Mesh(this.boxGeom, this.boxMat);
         scene.add(this.box);
 
+        // this.edges = new THREE.EdgesGeometry(this.boxGeom);
+        // this.line = new THREE.LineSegments( this.edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
+        // this.box.add( this.line );
+
         // This stuff is to allow the dragging of a cube
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
@@ -74,6 +104,7 @@ class Cube{
                 this.shift.subVectors(intersects[0].object.position, intersects[0].point);
                 this.isDragging = true;
                 this.dragObject = intersects[0].object;
+                //this.line.geometry.verticesNeedUpdate = true
             
             }
         } );
@@ -97,14 +128,14 @@ class Cube{
         } );
 
 
-        document.addEventListener("keydown", event => {
-            if (event.code === 'ArrowUp') {
-                this.box.position.y +=1
-                }
-            else if (event.code === 'ArrowDown') {
-                this.box.position.y -=1
-                }
-        })
+        // document.addEventListener("keydown", event => {
+        //     if (event.code === 'ArrowUp') {
+        //         this.box.position.y +=1
+        //         }
+        //     else if (event.code === 'ArrowDown') {
+        //         this.box.position.y -=1
+        //         }
+        // })
 
         // Call animate method every time the cube class is called
         this.animate()
@@ -129,6 +160,13 @@ socket.on('Redraw figure', (data)=>{
     newbox.box.position.set(data.x, data.y, data.z)
 })
 
+socket.on('Update cube', (dataControls)=>{
+    // Recieve 'Redraw figure' message from server with data and move the cube according to the recieved data
+    newbox.box.position.y = dataControls.pos
+    newbox.box.scale.y = dataControls.scale
+    newbox.box.rotation.x = dataControls.rot
+
+})
 
 
 document.addEventListener("keydown", event => {
@@ -140,6 +178,37 @@ document.addEventListener("keydown", event => {
         socket.emit('New Box', newbox)
     }
 })
+
+document.addEventListener("keydown", event => {
+    if (event.code === 'ArrowUp') {
+        newbox.box.position.y +=1
+        }  
+    else if (event.code === 'ArrowDown') {
+        newbox.box.position.y -=1
+        }
+    else if (event.code === 'ShiftLeft') {
+        newbox.box.scale.y +=1
+         }
+    else if (event.code === 'ShiftRight') {
+        newbox.box.scale.y -=1
+    }
+    else if (event.code === 'KeyB') {
+        newbox.box.rotation.x += Math.PI/2
+            //newbox.boxGeom.translate(0, 0.5, 0)
+        }
+    else if (event.code === 'KeyC') {
+        newbox.box.rotation.x -= Math.PI/2
+            //newbox.boxGeom.translate(0, 0.5, 0)
+        }
+    let dataControls = {
+        pos: newbox.box.position.y,
+        scale: newbox.box.scale.y,
+        rot: newbox.box.rotation.x 
+    }
+
+    socket.emit('Transformed cube', dataControls)
+})
+
 
 socket.on('Draw new box', (box1)=>{
     // When recieve 'Draw new box' message from the server, draw a cube (it allows a new cube to appear in all the clients)

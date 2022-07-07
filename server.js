@@ -34,11 +34,17 @@ io.sockets.on('connection', (socket)=>{
 
     })
 
-    //Receiving data
+    //Receiving data1
     socket.on('Get positions', (data)=>{ //If recieved a message 'Get positions' from the client, trigger the function below
         socket.broadcast.emit('Redraw figure', data) // Send the ' Redraw figure' message to all the clients except the original one
         // io.sockets.emit('mouse', data) // send the message also back to the original client
         console.log(data)
+    }) 
+
+    socket.on('Transformed cube', (dataControls)=>{ //If recieved a message 'Get positions' from the client, trigger the function below
+        socket.broadcast.emit('Update cube', dataControls) // Send the ' Redraw figure' message to all the clients except the original one
+        // io.sockets.emit('mouse', data) // send the message also back to the original client
+        console.log(dataControls)
     }) 
 
 }) // Activates a function when a connection is established
