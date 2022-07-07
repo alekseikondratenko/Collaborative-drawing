@@ -27,6 +27,7 @@ io.sockets.on('connection', (socket)=>{
     console.log('new connection' +socket.id)
 
     socket.on('New Box', (newbox)=>{
+        // When recieve 'New Box' message from the client, log the message and send 'Draw new box' message to the client
         console.log('New cube appeared')
         socket.broadcast.emit('Draw new box', newbox)
         
