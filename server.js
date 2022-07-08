@@ -8,7 +8,8 @@ var app = express();
 
 var socket = require('socket.io')
 // Establish the local server
-var server = app.listen(3000)
+var server = app.listen(process.env.PORT || 3000)
+
 var io = socket(server)
 
 const path = require('path')
