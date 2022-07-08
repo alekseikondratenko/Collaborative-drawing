@@ -7,13 +7,13 @@ const gui = new GUI({ width: 280 });
 //gui.add( document, 'title' );
 
 const myObject = {
-	newCube: 'Space',
+	newCube: 'Tab',
 	goUp: 'Arrow Up',
     goDown: 'Arrow Down',
-    scaleUp: 'Left Shift',
-    scaleDown: 'Right Shift',
-    rotateToBeam: 'b',
-    rotateToColumn: 'c',
+    scaleUp: 'Digit 1',
+    scaleDown: 'Digit 2',
+    rotateToBeam: 'Control left',
+    rotateToColumn: 'Alt left',
     moveCube: 'Mouse left click and drag'
 };
 
@@ -170,7 +170,7 @@ socket.on('Update cube', (dataControls)=>{
 
 
 document.addEventListener("keydown", event => {
-    if (event.code === 'Space') {
+    if (event.code === 'Tab') {
         //When spacebar is pressed, draw a new cube in a canvas
         newbox = new Cube()
         i+=1
@@ -186,17 +186,17 @@ document.addEventListener("keydown", event => {
     else if (event.code === 'ArrowDown') {
         newbox.box.position.y -=1
         }
-    else if (event.code === 'ShiftLeft') {
+    else if (event.code === 'Digit1') {
         newbox.box.scale.y +=1
          }
-    else if (event.code === 'ShiftRight') {
+    else if (event.code === 'Digit2') {
         newbox.box.scale.y -=1
     }
-    else if (event.code === 'KeyB') {
+    else if (event.code === 'ControlLeft') {
         newbox.box.rotation.x += Math.PI/2
             //newbox.boxGeom.translate(0, 0.5, 0)
         }
-    else if (event.code === 'KeyC') {
+    else if (event.code === 'AltLeft') {
         newbox.box.rotation.x -= Math.PI/2
             //newbox.boxGeom.translate(0, 0.5, 0)
         }

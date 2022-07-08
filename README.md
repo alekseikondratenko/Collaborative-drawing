@@ -1,12 +1,3 @@
-# Collaborative-drawing
-Here we will do a socket and nodeJS training for DBF upskill week
-
-To run:
-
-npm install express
-
-npm install socket.io
-
-node server.js
-
-go to localhost:3000 in your browser
+# Collaborative-drawing-Main_with_chat
+Collaborative-drawing-Main_with_chat
+This has the chat window enabled for multiplayer cube box using socket.io and 3js

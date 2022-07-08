@@ -2,25 +2,33 @@
 // Import express
 //import express from 'express'
 var express = require('express')
+var http = require('http');
+var app = express();
+// Socket server side
+
+var socket = require('socket.io')
+// Establish the local server
+var server = app.listen(3000)
+var io = socket(server)
 
 const path = require('path')
 
-// Establish the local server
-var app = express()
-
-var server = app.listen(3000)
+console.log("My socket server is running")
 
 app.use(express.static('public'))
 app.use('/build/', express.static(path.join(__dirname, 'node_modules/three/build')));
 app.use('/jsm/', express.static(path.join(__dirname, 'node_modules/three/examples/jsm')))
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+  });
+
+  var name;
+
+// io.on('connection', (socket) => {
+  
+// });
 
 
-console.log("My socket server is running")
-
-// Socket server side
-var socket = require('socket.io')
-
-var io = socket(server)
 
 // Event. To handle a socket created on the client's side
 io.sockets.on('connection', (socket)=>{
@@ -47,6 +55,25 @@ io.sockets.on('connection', (socket)=>{
         console.log(dataControls)
     }) 
 
+
+    console.log('new user connected ' + socket.id);
+  
+  socket.on('joining msg', (username) => {
+  	name = username;
+  	io.emit('chat message', `---${name} joined the chat---`);
+  });
+  
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+    io.emit('chat message', `---${name} left the chat---`);
+    
+  });
+  socket.on('chat message', (msg) => {
+    socket.broadcast.emit('chat message', msg);         //sending message to all except the sender
+  });
+
 }) // Activates a function when a connection is established
+
+
 
 // Responding to the event initiated by socket.emit on the client side
