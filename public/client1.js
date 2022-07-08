@@ -40,9 +40,27 @@ const renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
+scene.background = new THREE.Color(0xbfd1e5);
+
+
 let controls = new OrbitControls(camera, renderer.domElement);
 
-scene.add(new THREE.GridHelper(10, 10));
+//scene.add(new THREE.GridHelper(10, 10));
+
+function createFloor() {
+    let pos = { x: 0, y: -0.5, z: 3 };
+    let scale = { x: 20, y: 1, z: 20 };
+  
+    let blockPlane = new THREE.Mesh(new THREE.BoxBufferGeometry(),
+         new THREE.MeshBasicMaterial({ color: '#A85407' }));
+    blockPlane.position.set(pos.x, pos.y, pos.z);
+    blockPlane.scale.set(scale.x, scale.y, scale.z);
+    scene.add(blockPlane);
+  
+    blockPlane.userData.ground = true
+  }
+
+createFloor()
 
 let colour = new THREE.Color(Math.random(), Math.random(), Math.random())
 
