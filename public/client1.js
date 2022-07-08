@@ -29,8 +29,8 @@ gui.add( myObject, 'rotateToColumn' );
 
 
 var socket
-socket = io.connect('http://localhost:3000') // Connect client to server in socket
-
+//socket = io.connect('http://localhost:3000') // Connect client to server in socket
+socket = io()
 // Creating a scene, camera, etc
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 1, 1000);
